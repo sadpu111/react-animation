@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const Box = styled.div`
+const Box = styled(motion.div)`
   width: 200px;
   height: 200px;
   background-color: white;
@@ -19,8 +19,7 @@ const Box = styled.div`
 function App() {
   return (
     <Wrapper>
-      <motion.div></motion.div>
-      <Box />
+      <Box initial={{ scale: 0 }} transition={{delay: 1, type: "spring", bounce: 0.5}} animate={{ scale: 1, rotateZ: 360 }} />
     </Wrapper>
   );
 }
