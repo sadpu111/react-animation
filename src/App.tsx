@@ -1,6 +1,13 @@
 import { motion } from 'framer-motion';
 import styled from "styled-components"
 
+const myVars = {
+  start: { scale: 0 },
+  end: {
+    scale: 1, rotateZ: 360, transition: { delay: 1, type: "spring", bounce: 0.5 }
+  }
+}
+
 const Wrapper = styled.div`
   display: flex;
   height: 100vh;
@@ -19,7 +26,7 @@ const Box = styled(motion.div)`
 function App() {
   return (
     <Wrapper>
-      <Box initial={{ scale: 0 }} transition={{delay: 1, type: "spring", bounce: 0.5}} animate={{ scale: 1, rotateZ: 360 }} />
+      <Box variants={myVars} initial="start" animate="end" />
     </Wrapper>
   );
 }
