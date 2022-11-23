@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { useEffect } from 'react';
 import styled from "styled-components"
 
 
@@ -39,23 +39,17 @@ const boxVariants = {
     backgroundColor: "#c3bef0"
   }
 };
-
+ 
 
 
 function App() {
-  const biggerBoxRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const potato = useTransform(x, [-800, 0, 800], [2, 1, 0.1])
+  // useTransform(useMotionValue, 값 범위 배열, 변환 값 배열)
+  useEffect(() => { x.onChange(() => console.log(potato.get()))}, [x])
   return (
     <Wrapper>
-      <BiggerBox ref={biggerBoxRef}>
-        {/* 기준이 되는 컴포넌트 */}
-        <Box drag dragConstraints={biggerBoxRef}
-        /* ref를 적용하는 컴포넌트 */
-        dragElastic={0}
-        /* 0~1의 값(0이면 박스안에 머무른다) */
-        variants={boxVariants}
-        dragSnapToOrigin 
-        whileHover="hover" whileTap="click" whileDrag="drag" />
-      </BiggerBox>
+      <Box style={{ x: x, scale: potato }} drag="x" dragSnapToOrigin />
     </Wrapper>
   );
 }
