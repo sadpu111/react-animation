@@ -1,24 +1,14 @@
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useScroll } from 'framer-motion';
 import { useEffect } from 'react';
 import styled from "styled-components"
 
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   display: flex;
-  height: 100vh;
+  height: 300vh;
   width: 100vw;
   justify-content: center;
   align-items: center;
-`;
-const BiggerBox = styled(motion.div)`
-  width: 600px;
-  height: 600px;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
 `;
 const Box = styled(motion.div)`
   width: 200px;
@@ -28,30 +18,20 @@ const Box = styled(motion.div)`
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
 
-const boxVariants = {
-  hover: {
-    scale: 1, rotateZ: 90,
-  },
-  click: {
-    scale: 1, borderRadius: "100px",
-  },
-  drag: {
-    backgroundColor: "#c3bef0"
-  }
-};
- 
-
 
 function App() {
   const x = useMotionValue(0);
-  const potato = useTransform(x, [-800, 0, 800], [2, 1, 0.1])
+  const rotate = useTransform(x, [-800, 800], [-360, 360])
   // useTransform(useMotionValue, 값 범위 배열, 변환 값 배열)
-  useEffect(() => { x.onChange(() => console.log(potato.get()))}, [x])
+  const gradient = useTransform(x, [-800, 800],
+    ["linear-gradient(135deg, rgb(0, 210, 238), rgb(0, 83, 238))","linear-gradient(135deg, rgb(0, 238, 155), rgb(238, 178, 0))",
+    ]);
+    const {scrollYProgress} = useScroll();
+    const scale = useTransform(scrollYProgress, [0, 1], [0.5, 2]);
   return (
-    <Wrapper>
-      <Box style={{ x: x, scale: potato }} drag="x" dragSnapToOrigin />
+    <Wrapper style={{ background: gradient }}>
+      <Box style={{ x: x, rotateZ: rotate, scale: scale }} drag="x" dragSnapToOrigin />
     </Wrapper>
   );
 }
-
 export default App;

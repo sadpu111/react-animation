@@ -63,7 +63,6 @@ body {
 
   color:black;
   line-height: 1.2;
-  background:linear-gradient(0deg,#defcf9,#cadefc);
 }
 a {
   text-decoration:none;
